@@ -5,27 +5,32 @@ from dash.dash_table.Format import Format, Scheme
 import dash_bootstrap_components as dbc
 
 
-def layout_report():
-    df = pd.read_excel('datasets/ODEs_Dataset.xlsx')
-    if 'index' in df.columns:
-        df = df.drop(columns=['index'])
-
+def layout_main():
     layout = html.Div([
         html.Br(),
         html.Div([
-            html.Button('Update Report', id='create-report-btn', n_clicks=0,
-                        style={'backgroundColor': 'orange', 'color': 'white', 'fontWeight': 'bold', 'fontSize': '20px',
-                               'margin': 'auto'}),
-            html.Br(),
-            html.Br(),
-            dbc.Spinner(spinner_style={"marginTop": "20px"},
-                        children=[html.Div(id="macro-output")]),
-        ], style={'textAlign': 'center'}),
+            html.Img(src='assets/logo.png', style={'height': '100px', 'margin-left': 'auto', 'margin-right': 'auto'}),
+        ], style={'text-align': 'center', 'margin-bottom': '10px'}),
 
         html.Div([
             html.Br(),
-            html.Iframe(id='html-viewer', src="assets/relatorio_analise.html", width='80%', height='600'),
-        ], style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'marginBottom': '10px'}),
+            dcc.Upload(
+                id='upload-data',
+                children=html.Div(['Drag or ', html.A('select an Excel Pump Curve File!')]),
+                style={
+                    'width': '500px', 'height': '60px', 'lineHeight': '60px',
+                    'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px',
+                    'textAlign': 'center', 'margin': 'auto'
+                },
+                multiple=False
+            ),
+        ], style={'textAlign': 'center'}),
+
+        dcc.Download(id="download-json"),
+        html.Br(),
+        html.Div([
+            html.H5(id='file-name-output')
+        ], style={'textAlign': 'center'}),
     ])
 
     return layout
