@@ -27,8 +27,9 @@ def update_dropdown(contents, filename):
     try:
         if 'xlsx' in filename:
             # Assume que é um arquivo Excel
-            dataframe = pd.read_excel(io.BytesIO(decoded), sheet_name='Pump Data')
-            createjson(dataframe, filename)
+            Pump_Data = pd.read_excel(io.BytesIO(decoded), sheet_name='Pump Data')
+            Pump_Info = pd.read_excel(io.BytesIO(decoded), sheet_name='Pump Info', header=None)
+            createjson(Pump_Data, Pump_Info, filename)
             file_dir = 'DWSIM Pump Curves/'
             partes = filename.rsplit('.', 1)
             nome_base = partes[0] if len(partes) > 1 else filename

@@ -3,85 +3,57 @@ import json
 import os
 
 
-def createjson(dataframe, filename):
-    df_pump_data = dataframe
+def createjson(Pump_Data, Pump_Info, filename):
+    df_pump_data = Pump_Data
+    df_pump_info = Pump_Info
+
+    impeller_diameter = df_pump_info.iat[0, 1]
+    impeller_diameter_unit = df_pump_info.iat[0, 2]
+    revolutions = df_pump_info.iat[1, 1]
+    name = df_pump_info.iat[2, 1]
+    description = df_pump_info.iat[3, 1]
 
     # Capture the units from the first row, which contains the units for each variable
     units = df_pump_data.iloc[0]
 
-    # Define a template for JSON structure
+    # Estrutura base para o arquivo JSON conforme o novo formato
     data_template = {
-        "NPSH": {
-            "Enabled": True,
-            "Name": "NPSH",
-            "ID": "2707b32d-cc35-483d-a167-8eafb289d17c",
-            "CvType": 2,
-            "yunit": units['Required NPSH'],
-            "xunit": units['Flow Rate'],
-            "y": [],
-            "x": []
-        },
-        "HEAD": {
-            "Enabled": True,
-            "Name": "HEAD",
-            "ID": "d68f2dc3-c36c-4a8f-a1be-ff1b9396df9a",
-            "CvType": 0,
-            "yunit": units['Head'],
-            "xunit": units['Flow Rate'],
-            "y": [],
-            "x": []
-        },
-        "EFF": {
-            "Enabled": True,
-            "Name": "EFF",
-            "ID": "81ab7901-d048-4bd1-a2b9-3ebf317e6ed6",
-            "CvType": 3,
-            "yunit": units['Efficciency'],
-            "xunit": units['Flow Rate'],
-            "y": [],
-            "x": []
-        },
-        "POWER": {
-            "Enabled": True,
-            "Name": "POWER",
-            "ID": "bc43f67d-85f0-49b4-b37f-4698b33373e8",
-            "CvType": 1,
-            "yunit": units['Power'],
-            "xunit": units['Flow Rate'],
-            "y": [],
-            "x": []
-        },
-        "SYSTEM": {
-            "Enabled": False,
-            "Name": "SYSTEM",
-            "ID": "8ef1595f-6ba8-441b-8117-98018965957b",
-            "CvType": 4,
-            "yunit": "",
-            "xunit": "",
-            "y": [],
-            "x": []
-        }
+        "Name": name,
+        "Description": description,
+        "ImpellerDiameter": impeller_diameter,
+        "ImpellerSpeed": revolutions,
+        "ImpellerDiameterUnit": impeller_diameter_unit,
+        "CurveHead": {"X": [], "Y": [], "Enabled": True, "Name": "HEAD", "ID": "", "CvType": 0, "yunit": units['Head'],
+                      "xunit": units['Flow Rate']},
+        "CurvePower": {"X": [], "Y": [], "Enabled": True, "Name": "POWER", "ID": "", "CvType": 1,
+                       "yunit": units['Power'], "xunit": units['Flow Rate']},
+        "CurveEfficiency": {"X": [], "Y": [], "Enabled": True, "Name": "EFF", "ID": "", "CvType": 3,
+                            "yunit": units['Efficciency'], "xunit": units['Flow Rate']},
+        "CurveNPSHr": {"X": [], "Y": [], "Enabled": True, "Name": "NPSH", "ID": "", "CvType": 2,
+                       "yunit": units['Required NPSH'], "xunit": units['Flow Rate']}
     }
 
     # Populate the template with data from the Excel sheet, checking for null values
     for _, row in df_pump_data.iloc[1:].iterrows():
         flow_rate = row['Flow Rate']
+        npsh = row['Required NPSH']
+        head = row['Head']
+        power = row['Power']
+        efficiency = row['Efficciency']
 
-        if pd.notnull(row['Required NPSH']):
-            data_template["NPSH"]["x"].append(flow_rate)
-            data_template["NPSH"]["y"].append(row['Required NPSH'])
-
-        if pd.notnull(row['Head']):
-            data_template["HEAD"]["x"].append(flow_rate)
-            data_template["HEAD"]["y"].append(row['Head'])
-
-        if pd.notnull(row['Efficciency']):
-            data_template["EFF"]["x"].append(flow_rate)
-            data_template["EFF"]["y"].append(row['Efficciency'])
-
-        if pd.notnull(row['Power']):
-            data_template["POWER"]["x"].append(flow_rate)
-            data_template["POWER"]["y"].append(row['Power'])
+        if pd.notnull(flow_rate):
+            if pd.notnull(npsh):
+                data_template["CurveNPSHr"]["X"].append(flow_rate)
+                data_template["CurveNPSHr"]["Y"].append(npsh)
+            if pd.notnull(head):
+                data_template["CurveHead"]["X"].append(flow_rate)
+                data_template["CurveHead"]["Y"].append(head)
+            if pd.notnull(power):
+                data_template["CurvePower"]["X"].append(flow_rate)
+                data_template["CurvePower"]["Y"].append(power)
+            if pd.notnull(efficiency):
+                data_template["CurveEfficiency"]["X"].append(flow_rate)
+                data_template["CurveEfficiency"]["Y"].append(efficiency)
 
     # Convert the populated template to JSON format
     json_data = json.dumps(data_template, indent=4)

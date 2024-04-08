@@ -1,100 +1,95 @@
 {
-    "NPSH": {
-        "Enabled": true,
-        "Name": "NPSH",
-        "ID": "2707b32d-cc35-483d-a167-8eafb289d17c",
-        "CvType": 2,
-        "yunit": "mm",
-        "xunit": "m3/s",
-        "y": [
-            5.943309966,
-            4.388905821,
-            4.175556233,
-            4.175556233,
-            4.175556233
-        ],
-        "x": [
+    "Name": "Sulzer Pump Curve",
+    "Description": "Sulzer Pump Curve Test",
+    "ImpellerDiameter": 200,
+    "ImpellerSpeed": 1450,
+    "ImpellerDiameterUnit": "mm",
+    "CurveHead": {
+        "X": [
             2078.645254,
             1732.280087,
             1385.914919,
             1039.322627,
             692.9574597
-        ]
-    },
-    "HEAD": {
-        "Enabled": true,
-        "Name": "HEAD",
-        "ID": "d68f2dc3-c36c-4a8f-a1be-ff1b9396df9a",
-        "CvType": 0,
-        "yunit": "m",
-        "xunit": "m3/s",
-        "y": [
+        ],
+        "Y": [
             37.5,
             44.5,
             49.7,
             53.35,
             56.09
         ],
-        "x": [
+        "Enabled": true,
+        "Name": "HEAD",
+        "ID": "",
+        "CvType": 0,
+        "yunit": "ft",
+        "xunit": "m3/h"
+    },
+    "CurvePower": {
+        "X": [
             2078.645254,
             1732.280087,
             1385.914919,
             1039.322627,
             692.9574597
-        ]
-    },
-    "EFF": {
-        "Enabled": true,
-        "Name": "EFF",
-        "ID": "81ab7901-d048-4bd1-a2b9-3ebf317e6ed6",
-        "CvType": 3,
-        "yunit": "abs",
-        "xunit": "m3/s",
-        "y": [
-            85.5,
-            87.3,
-            83.1,
-            72.4,
-            57
         ],
-        "x": [
-            2078.645254,
-            1732.280087,
-            1385.914919,
-            1039.322627,
-            692.9574597
-        ]
-    },
-    "POWER": {
-        "Enabled": true,
-        "Name": "POWER",
-        "ID": "bc43f67d-85f0-49b4-b37f-4698b33373e8",
-        "CvType": 1,
-        "yunit": "kW",
-        "xunit": "m3/s",
-        "y": [
+        "Y": [
             332,
             322,
             302,
             278,
             248
         ],
-        "x": [
+        "Enabled": true,
+        "Name": "POWER",
+        "ID": "",
+        "CvType": 1,
+        "yunit": "HP",
+        "xunit": "m3/h"
+    },
+    "CurveEfficiency": {
+        "X": [
             2078.645254,
             1732.280087,
             1385.914919,
             1039.322627,
             692.9574597
-        ]
+        ],
+        "Y": [
+            85.5,
+            87.3,
+            83.1,
+            72.4,
+            57
+        ],
+        "Enabled": true,
+        "Name": "EFF",
+        "ID": "",
+        "CvType": 3,
+        "yunit": "%",
+        "xunit": "m3/h"
     },
-    "SYSTEM": {
-        "Enabled": false,
-        "Name": "SYSTEM",
-        "ID": "8ef1595f-6ba8-441b-8117-98018965957b",
-        "CvType": 4,
-        "yunit": "",
-        "xunit": "",
-        "y": [],
-        "x": []
+    "CurveNPSHr": {
+        "X": [
+            2078.645254,
+            1732.280087,
+            1385.914919,
+            1039.322627,
+            692.9574597
+        ],
+        "Y": [
+            5.943309966,
+            4.388905821,
+            4.175556233,
+            4.175556233,
+            4.175556233
+        ],
+        "Enabled": true,
+        "Name": "NPSH",
+        "ID": "",
+        "CvType": 2,
+        "yunit": "m",
+        "xunit": "m3/h"
     }
 }
